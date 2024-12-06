@@ -6,28 +6,30 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 11:34:25 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/02 11:44:59 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/06 15:34:22 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
-#include <fcntl.h>
-#include "get_next_line.h"
+#include <stdlib.h>
+#include <unistd.h> // read()
+#include <fcntl.h> // open()
 
 int	main(void)
 {
-  // Variables
-  int	fd;
-  char	*next_line;
-  int	count;
+	// Variables
+	int	  fd;
+	char  buffer [256];
+	int   chars_read;
 
-  count = 0;
-  fd = open("example.txt", O_RDONLY);
-  next_line = get_next_line(fd);
-  count++;
-  printf("[%d]:%s\n", count, next_line); //count is to show you the line numbers
-  next_line = NULL;
+	fd = open("fichier.txt", O_RDONLY);
 
-  close(fd);
-  return (0);
+	while ((chars_read = read(fd, buffer, 50)))
+	{
+		buffer[chars_read] = '\0';
+		printf("Buffer : %s\n", buffer);
+	}
+
+	//close(fd);
+	//return (0);
 }
