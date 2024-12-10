@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/10 17:02:58 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/10 17:32:39 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,38 +15,6 @@
 // ============================================================================
 
 #include "get_next_line.h"
-
-// ============================================================================
-// ---------------------------- get_next_line ---------------------------------
-// ============================================================================
-
-char	*get_next_line(int fd)
-{
-	// Variables
-	static char	*buffer_static; // [FD_MAX] c'est le nb de fd - double tableau
-	//int		count_char;
-	char		*line;
-
-	// fd only positive | read test -> read returns -1 if problem on reading
-	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0 || read(fd, &line , 0) < 0)
-		return (NULL);
-	
-	//count_char = 1; // initialise a 1 pour pouvoir entrer dans le boucle
-	line = NULL;
-	
-	// 1. read from fd and add to static_buffer
-	buffer_static = read_and_join(fd, buffer_static);
-	// si le fichier est vide
-	if (buffer_static == NULL)
-		return (NULL);
-	// 2. print new line
-	line = find_new_line(buffer_static, line);
-	if (line == NULL || *line == '\0')
-		return(free(buffer_static), buffer_static = NULL, free(line), NULL);
-	// 3. celan buffer_static
-	buffer_static = clean_buffer_static(buffer_static);
-	return (line);
-}
 
 // ============================================================================
 // ------------------------------ read_and_join -------------------------------
@@ -63,10 +31,14 @@ char	*read_and_join(int fd, char *buffer_static)
 	 char		*buffer_tmp;
 	 ssize_t	count_char;
 
-	 // Allocation memoire pour la copie et ctrl de l'allocation
+	 // Allocate memory for the read buffer
 	 buffer_read= malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	 if (buffer_read == NULL)
 	 	return (free(buffer_static), NULL);
+
+	// Initialise static buffer if it's NULL
+	if (!buffer_static)
+		buffer_static = ft_strdup("");
 	
 	// boucle pour lire tant que la valeur de retour est zero (pas '\n' trouve)
 	count_char = 1; // rentrer au moins une fois dans le boucle
@@ -110,7 +82,7 @@ char *find_new_line (char *buffer_static, char *line)
 }
 
 // ============================================================================
-// ----------------------------- clean_stash ----------------------------------
+// ----------------------------- clean_buffer ---------------------------------
 // ============================================================================
 
 // after extracting the line, we need to remove the characters read
@@ -146,6 +118,38 @@ char	*clean_buffer_static(char *buffer_static)
 	free(buffer_static);
 	return(buffer_extract);
 }
+// ============================================================================
+// ---------------------------- get_next_line ---------------------------------
+// ============================================================================
+
+char	*get_next_line(int fd)
+{
+	// Variables
+	static char	*buffer_static; // [FD_MAX] c'est le nb de fd - double tableau
+	char		*line;
+
+	// Validate the inputs and test the file descriptor
+	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0 || read(fd, NULL , 0) < 0)
+		return (NULL);
+	
+	line = NULL;
+	
+	// 1. read from fd and append to static_buffer
+	buffer_static = read_and_join(fd, buffer_static);
+	// si le fichier est vide
+	if (buffer_static == NULL)
+		return (NULL);
+	
+	// 2. extract a line from the static buffer
+	line = find_new_line(buffer_static, line);
+	if (line == NULL || *line == '\0')
+		return(free(buffer_static), buffer_static = NULL, free(line), NULL);
+	
+	// 3. celan buffer_static
+	buffer_static = clean_buffer_static(buffer_static);
+	return (line);
+}
+
 
 // ============================================================================
 // --------------------------------- main -------------------------------------

@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:18:30 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/10 16:47:40 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/10 17:29:41 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ char    *get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *src);
+char	*ft_strchr(const char *s, int c);
 void	*ft_calloc(size_t count, size_t size);
+
 // ? ft_strdup -> copier une chaine de char
 // ? ft_strchr -> recherche '\n'
 // ft_srtjoin -> empiler le contenu lu dans static
