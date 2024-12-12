@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:16:27 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/10 17:36:20 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/12 14:11:04 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 // ============================================================================
 #include "get_next_line.h"
 
-
+// ============================================================================
+// ------------------------------ ft_calloc -----------------------------------
+// ============================================================================
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -73,7 +75,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	len_str1 = ft_strlen(s1);
 	len_str2 = ft_strlen(s2);
-	result = (char *)malloc(sizeof(char) * (len_str1 + len_str2 +1));
+	result = (char *)malloc(sizeof(char) * (len_str1 + len_str2 + 1));
 	if (result == NULL)
 		return (NULL);
 	i_str1 = 0;
@@ -176,12 +178,6 @@ char	*ft_strchr(const char *s, int c)
 	ft_strlen => longueur chaine de caractere
 	ft_substr => extraction sous-chaine
 	ft_strjoin => concatener deux chaines
-
-	GNL
-	get_next_line
-	read_and_join
-	find_next_line
-	clean_buffer_static
 */
 
 

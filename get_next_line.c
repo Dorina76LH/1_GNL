@@ -6,15 +6,44 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/10 17:32:39 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/12 14:18:49 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // ============================================================================
 // -------------------------------- headers -----------------------------------
 // ============================================================================
-
 #include "get_next_line.h"
+
+// ============================================================================
+// ---------------------------- get_next_line ---------------------------------
+// ============================================================================
+char	*get_next_line(int fd)
+{
+	static char	*buffer_static; // [FD_MAX] c'est le nb de fd - double tableau
+	char		*line;
+
+	// Validate the inputs and test the file descriptor
+	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0) //
+		return (NULL);
+	
+	line = NULL;
+	
+	// 1. read from fd and append to static_buffer
+	buffer_static = read_and_join(fd, buffer_static);
+	// si le fichier est vide
+	if (buffer_static == NULL)
+		return (NULL);
+	
+	// 2. extract a line from the static buffer
+	line = find_new_line(buffer_static, line);
+	if (line == NULL || *line == '\0')
+		return(free(buffer_static), buffer_static = NULL, free(line), NULL);
+	
+	// 3. celan buffer_static
+	buffer_static = clean_buffer_static(buffer_static);
+	return (line);
+}
 
 // ============================================================================
 // ------------------------------ read_and_join -------------------------------
@@ -65,13 +94,13 @@ char	*read_and_join(int fd, char *buffer_static)
 // extract all charcaters from the static_buffer and copy them in "line",
 // stopping after the first '\n' found
 
-char *find_new_line (char *buffer_static, char *line)
+char	*find_new_line(char *buffer_static, char *line)
 {
 	int len_line;
 	
 	// find length of new line
 	len_line = 0;
-	while(buffer_static[len_line] != '\n')
+	while(buffer_static[len_line] != '\n' && buffer_static[len_line] != '\0')
 		len_line++;
 	if (buffer_static[len_line] == '\n')
 		len_line++;
@@ -98,7 +127,7 @@ char	*clean_buffer_static(char *buffer_static)
 	
 	// find length of line
 	len_line = 0;
-	while(buffer_static[len_line] != '\n')
+	while(buffer_static[len_line] != '\n' && buffer_static[len_line] != '\0')
 		len_line++;
 	
 	// start after '\n'
@@ -118,39 +147,6 @@ char	*clean_buffer_static(char *buffer_static)
 	free(buffer_static);
 	return(buffer_extract);
 }
-// ============================================================================
-// ---------------------------- get_next_line ---------------------------------
-// ============================================================================
-
-char	*get_next_line(int fd)
-{
-	// Variables
-	static char	*buffer_static; // [FD_MAX] c'est le nb de fd - double tableau
-	char		*line;
-
-	// Validate the inputs and test the file descriptor
-	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0 || read(fd, NULL , 0) < 0)
-		return (NULL);
-	
-	line = NULL;
-	
-	// 1. read from fd and append to static_buffer
-	buffer_static = read_and_join(fd, buffer_static);
-	// si le fichier est vide
-	if (buffer_static == NULL)
-		return (NULL);
-	
-	// 2. extract a line from the static buffer
-	line = find_new_line(buffer_static, line);
-	if (line == NULL || *line == '\0')
-		return(free(buffer_static), buffer_static = NULL, free(line), NULL);
-	
-	// 3. celan buffer_static
-	buffer_static = clean_buffer_static(buffer_static);
-	return (line);
-}
-
-
 // ============================================================================
 // --------------------------------- main -------------------------------------
 // ============================================================================
@@ -172,55 +168,59 @@ char	*get_next_line(int fd)
 	nous avons besoin de la memoire pointee par le buffer
 */
 
-int	main(int argc, char **argv)
-{
-	// Variable declaration
-	int		fd;
-	char	*new_line;
-	int		count_line;
+// int	main(int argc, char **argv)
+// {
+// 	// Variable declaration
+// 	int		fd;
+// 	char	*new_line;
+// 	int		count_line;
 
-	// Variable initialisation
-	count_line = 0;
+// 	// Variable initialisation
+// 	count_line = 0;
 
-	// when argc == 2
-	if (argc == 2)
-	{
-		// open the file >> read only
-		fd = open(argv[1], O_RDONLY);
-		// read the file line by line, while return_value of get_next_line is > 0
-		// there is encore something to read
-		new_line = get_next_line(fd);
+// 	// when argc == 2
+// 	if (argc == 2)
+// 	{
+// 		// open the file >> read only
+// 		fd = open(argv[1], O_RDONLY);
+// 		// read the file line by line, while return_value of get_next_line is > 0
+// 		// there is encore something to read
+// 		new_line = get_next_line(fd);
 		
-		while (new_line != NULL)
-		{
-			printf("Line #%d : %s\n", ++count_line, new_line);
-			free(new_line);
-			new_line = get_next_line(fd);
-		}
-		// if (return == 0)
-		// 	printf("----- End of file -----\n");
-		close(fd);
-	}
+// 		while (new_line != NULL)
+// 		{
+// 			printf("Line #%d : %s\n", ++count_line, new_line);
+// 			free(new_line);
+// 			new_line = get_next_line(fd);
+// 		}
+// 		if (new_line == NULL)
+// 		{
+// 			printf("Line #%d : %s\n", ++count_line, new_line);
+// 		 	printf("----- End of file -----\n");
+// 		}
+// 		free(new_line);
+// 		close(fd);
+// 	}
 	
-	// when argc == 1
-	// read from stdin - tape by user
-	// if (argc == 1)
-	// {
-	// 	while ((return_value = get_next_line(fd, &buffer))>0)
-	// 	{
-	// 		printf("[Return : %d] Line #%d : %s\n", return_value, ++line, buffer);
-	// 	}
-	// 	// special cases : last line, reading error, end of file
-	// 	// print last line after the loop (line = return value of get_next_line)
-	// 	printf("[Return : %d] Line #%d : %s\n", return_value, ++line, buffer);
-	// 	if (return_value == -1)
-	// 		printf("----- Reading error -----\n");
-	// 	else if (retu == 0)
-	// 		printf("----- End of stdin -----\n");
-	//	close(fd);
-	//}
-	return (0);
-}
+// 	// when argc == 1
+// 	// read from stdin - tape by user
+// 	// if (argc == 1)
+// 	// {
+// 	// 	while ((return_value = get_next_line(fd, &buffer))>0)
+// 	// 	{
+// 	// 		printf("[Return : %d] Line #%d : %s\n", return_value, ++line, buffer);
+// 	// 	}
+// 	// 	// special cases : last line, reading error, end of file
+// 	// 	// print last line after the loop (line = return value of get_next_line)
+// 	// 	printf("[Return : %d] Line #%d : %s\n", return_value, ++line, buffer);
+// 	// 	if (return_value == -1)
+// 	// 		printf("----- Reading error -----\n");
+// 	// 	else if (retu == 0)
+// 	// 		printf("----- End of stdin -----\n");
+// 	//	close(fd);
+// 	//}
+// 	return (0);
+// }
 
 /* 
 ------------------------------------------
