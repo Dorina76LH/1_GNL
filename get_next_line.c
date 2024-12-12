@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/12 14:18:49 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/12 15:29:16 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,27 @@
 // ============================================================================
 // ---------------------------- get_next_line ---------------------------------
 // ============================================================================
+
+// 0. Validate the inputs and test the file descriptor
+// 1. Read from fd and append to 'buffer_static'
+// 2. Extract 'line' from 'buffer_static'
+// 3. Clean 'buffer_static'
+// [FD_MAX] c'est le nb de fd - double tableau
+
 char	*get_next_line(int fd)
 {
-	static char	*buffer_static; // [FD_MAX] c'est le nb de fd - double tableau
+	static char	*buffer_static;
 	char		*line;
 
-	// Validate the inputs and test the file descriptor
-	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0) //
+	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0)
 		return (NULL);
-	
 	line = NULL;
-	
-	// 1. read from fd and append to static_buffer
 	buffer_static = read_and_join(fd, buffer_static);
-	// si le fichier est vide
 	if (buffer_static == NULL)
 		return (NULL);
-	
-	// 2. extract a line from the static buffer
 	line = find_new_line(buffer_static, line);
 	if (line == NULL || *line == '\0')
-		return(free(buffer_static), buffer_static = NULL, free(line), NULL);
-	
-	// 3. celan buffer_static
+		return (free(buffer_static), buffer_static = NULL, free(line), NULL);
 	buffer_static = clean_buffer_static(buffer_static);
 	return (line);
 }
@@ -56,58 +54,56 @@ char	*get_next_line(int fd)
 
 char	*read_and_join(int fd, char *buffer_static)
 {
-	 char		*buffer_read;
-	 char		*buffer_tmp;
-	 ssize_t	count_char;
+	char		*buffer_read;
+	char		*buffer_tmp;
+	ssize_t		count_char;
 
-	 // Allocate memory for the read buffer
-	 buffer_read= malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	 if (buffer_read == NULL)
-	 	return (free(buffer_static), NULL);
-
+	// Allocate memory for the read buffer
+	buffer_read = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	if (buffer_read == NULL)
+		return (free(buffer_static), NULL);
 	// Initialise static buffer if it's NULL
 	if (!buffer_static)
-		buffer_static = ft_strdup("");
-	
+		buffer_static = ft_substr("", 0, 0);
 	// boucle pour lire tant que la valeur de retour est zero (pas '\n' trouve)
 	count_char = 1; // rentrer au moins une fois dans le boucle
 	while (ft_strchr(buffer_static, '\n') == 0 && count_char > 0)
 	{
 		count_char = read(fd, buffer_read, BUFFER_SIZE); // buffer rempli avec buffer_size
 		if (count_char == -1) // gestion erreur de lecture read()
-			return(free(buffer_static), free(buffer_read), NULL);
+			return (free(buffer_static), free(buffer_read), NULL);
 		buffer_read[count_char] = '\0';
 		// concatener buffer static et buffer read
 		buffer_tmp = ft_strjoin(buffer_static, buffer_read);
-		if(buffer_tmp == NULL)
-			return(free(buffer_static), free(buffer_read), NULL);
+		if (buffer_tmp == NULL)
+			return (free(buffer_static), free(buffer_read), NULL);
 		free(buffer_static);
 		buffer_static = buffer_tmp;
 	}
-	return(free(buffer_read), buffer_static);
+	return (free(buffer_read), buffer_static);
 }
 
 // ============================================================================
 // ----------------------------- find_new_line ---------------------------------
 // ============================================================================
 
-// extract all charcaters from the static_buffer and copy them in "line",
+// extract all charcaters from the 'static_buffer' and copy them in 'line',
 // stopping after the first '\n' found
 
 char	*find_new_line(char *buffer_static, char *line)
 {
-	int len_line;
-	
+	int	len_line;
+
 	// find length of new line
 	len_line = 0;
-	while(buffer_static[len_line] != '\n' && buffer_static[len_line] != '\0')
+	while (buffer_static[len_line] != '\n' && buffer_static[len_line] != '\0')
 		len_line++;
 	if (buffer_static[len_line] == '\n')
 		len_line++;
 	line = ft_substr(buffer_static, 0, len_line);
 	if (line == NULL)
-		return(NULL);
-	return(line);
+		return (NULL);
+	return (line);
 }
 
 // ============================================================================
@@ -124,28 +120,25 @@ char	*clean_buffer_static(char *buffer_static)
 	int		start;
 	int		len_total;
 	int		len_extract;
-	
+
 	// find length of line
 	len_line = 0;
-	while(buffer_static[len_line] != '\n' && buffer_static[len_line] != '\0')
+	while (buffer_static[len_line] != '\n' && buffer_static[len_line] != '\0')
 		len_line++;
-	
 	// start after '\n'
 	start = len_line + 1;
-
 	// find lenght of buffer_static
 	len_total = 0;
-	while(buffer_static[len_total] != '\0')
+	while (buffer_static[len_total] != '\0')
 		len_total++;
 	len_extract = len_total - start;
-	
 	// copier chaine apres 'n' dans le varaible temp
 	buffer_extract = ft_substr(buffer_static, start, len_extract);
 	if (buffer_extract == NULL)
-		return(free(buffer_static), NULL);
+		return (free(buffer_static), NULL);
 	// reassigner buffer_tmp a buffer static
 	free(buffer_static);
-	return(buffer_extract);
+	return (buffer_extract);
 }
 // ============================================================================
 // --------------------------------- main -------------------------------------
@@ -183,10 +176,9 @@ char	*clean_buffer_static(char *buffer_static)
 // 	{
 // 		// open the file >> read only
 // 		fd = open(argv[1], O_RDONLY);
-// 		// read the file line by line, while return_value of get_next_line is > 0
+// 		// read the file line by line, while return_value of GNL is > 0
 // 		// there is encore something to read
 // 		new_line = get_next_line(fd);
-		
 // 		while (new_line != NULL)
 // 		{
 // 			printf("Line #%d : %s\n", ++count_line, new_line);
@@ -201,17 +193,16 @@ char	*clean_buffer_static(char *buffer_static)
 // 		free(new_line);
 // 		close(fd);
 // 	}
-	
 // 	// when argc == 1
 // 	// read from stdin - tape by user
 // 	// if (argc == 1)
 // 	// {
 // 	// 	while ((return_value = get_next_line(fd, &buffer))>0)
 // 	// 	{
-// 	// 		printf("[Return : %d] Line #%d : %s\n", return_value, ++line, buffer);
+// 	// 		printf("[Return : %d] Line #%d : %s\n", ++line, buffer);
 // 	// 	}
 // 	// 	// special cases : last line, reading error, end of file
-// 	// 	// print last line after the loop (line = return value of get_next_line)
+// 	// 	// print last line after the loop (line = return value of GNL)
 // 	// 	printf("[Return : %d] Line #%d : %s\n", return_value, ++line, buffer);
 // 	// 	if (return_value == -1)
 // 	// 		printf("----- Reading error -----\n");
@@ -245,7 +236,8 @@ char	*clean_buffer_static(char *buffer_static)
 	- buffer est ecrase a chaque appel de read
 3) stash (static)
 	- stocker le contenu du buffer dans stash (reserve)
-	- stash doit etre static pour que le contenu ne soit pas reinitialise a chaque appel
+	- stash doit etre static pour que le contenu ne soit pas reinitialise
+	  a chaque appel
 
 
 ------------------------------------------

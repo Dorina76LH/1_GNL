@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:16:27 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/12 14:11:04 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/12 15:03:38 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 // ============================================================================
 // ------------------------------ ft_calloc -----------------------------------
 // ============================================================================
+
+// ft_calloc : allocates the memory and fills the allocated memory with
+// bytes of value zero '\0'
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -37,6 +40,7 @@ void	*ft_calloc(size_t count, size_t size)
 	}
 	return (ptr);
 }
+
 // ============================================================================
 // ------------------------------ ft_strlen -----------------------------------
 // ============================================================================
@@ -55,13 +59,14 @@ size_t	ft_strlen(const char *s)
 	}
 	return (i);
 }
+
 // ============================================================================
 // ------------------------------ ft_strjoin ----------------------------------
 // ============================================================================
 
 //  ft_strjoin : copies in *result : string1 + string2 + '\0 and returns *result
 //   - Calculate the length of string1 and string2 (without '\0')
-//   - Allocate memory for the copy (total_len = len_str1 + len_str2 + 1 => ('\0))
+//   - Allocate memory for the copy : total_len = len_str1 + len_str2 + 1(='\0)
 //   - Copy str1 (without '\0'), str2 (without '\0') and '\0' in result
 //   - Return value : result
 
@@ -98,10 +103,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 // ------------------------------ ft_substr -----------------------------------
 // ============================================================================
 
-
-/*
-
-*/
+// ft_substr : allocates (with malloc), and returns a substring from 's'
+// The substring begins to 'start' and is of maximum length 'len'
+// If 'start' exceeds the length of 's', an empty string is returned 
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
@@ -132,33 +136,12 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 }
 
 // ============================================================================
-// ------------------------------ ft_strdup -----------------------------------
-// ============================================================================
-
-char	*ft_strdup(const char *src)
-{
-	char	*dest;
-	int		i;
-	int		length;
-
-	i = 0;
-	length = 0;
-	while (src[length] != '\0')
-		length++;
-	dest = (char *)malloc(sizeof(char) * (length + 1));
-	if (dest == NULL)
-		return (NULL);
-	while (src[i] != '\0')
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-// ============================================================================
 // ------------------------------ ft_strchr -----------------------------------
 // ============================================================================
+
+// Ft_strchr : locates the first occurence of c (converted to a char) in 's'
+// and returns a pointer to the located character, or NULL if the character
+// does not appear in the string.
 
 char	*ft_strchr(const char *s, int c)
 {
@@ -171,14 +154,3 @@ char	*ft_strchr(const char *s, int c)
 		return ((char *)s);
 	return (0);
 }
-
-/*
-	utils
-	ft_strchr => trouver '\n' et '\0'
-	ft_strlen => longueur chaine de caractere
-	ft_substr => extraction sous-chaine
-	ft_strjoin => concatener deux chaines
-*/
-
-
-
