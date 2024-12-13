@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/13 15:31:00 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/13 16:22:16 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,3 +190,26 @@ char	*clean_buffer_static(char *buffer_static)
 // 	}
 // 	return (0);
 // }
+// fichier1.txt
+// 11111111111111111111111111111111111111111111111111111111111111111111111
+// 22222222222222222222222222222222222222222222222222222222222222222222222
+// 33333333333333333333333333333333333333333333333333333333333333333333333
+// 44444444444444444444444444444444444444444444444444444444444444444444444
+// 55555555555555555555555555555555555555555555555555555555555555555555555
+// 66666666666666666666666666666666666666666666666666666666666666666666666
+// 77777777777777777777777777777777777777777777777777777777777777777777777
+// 88888888888888888888888888888888888888888888888888888888888888888888888
+// 99999999999999999999999999999999999999999999999999999999999999999999999
+// 00000000000000000000000000000000000000000000000000000000000000000000000
+// fichier2.txt
+// aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+// bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+// cccccccccccccccccccccccccccccccccccccccccccccc
+// dddddddddddddddddddddddddddddddddddddddddddddd
+// eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+// ffffffffffffffffffffffffffffffffffffffffffffff
+// gggggggggggggggggggggggggggggggggggggggggggggg
+// hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+// iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+// jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+// kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk

@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/13 15:48:03 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/13 16:26:11 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,43 +153,61 @@ char	*clean_buffer_static(char *buffer_static)
 //============================================================================
 // gcc -Wall -Werror -Wextra -g
 // get_next_line_bonus.c get_next_line_bonus.h get_next_line_utils_bonus.c
-int	main(int argc, char **argv)
-{
-	// Variable declaration
-	int		fd1;
-	int		fd2;
-	char	*new_line1;
-	char	*new_line2;
-	int		count_line1;
-	int		count_line2;
-
-	// Variable initialisation
-	count_line1 = 0;
-	count_line2 = 0;
-
-	// when argc == 3
-	if (argc == 3)
-	{
-		// 1. Open the files >> read only
-		fd1 = open(argv[1], O_RDONLY);
-		fd2 = open(argv[2], O_RDONLY);
-
-		while((new_line1 = get_next_line(fd1)) != NULL ||
-			(new_line2 = get_next_line(fd2)) != NULL )
-		{
-			if(new_line1 != NULL)
-			{
-				printf("File 1 : Line #%d : %s\n", ++count_line1, new_line1);
-				free(new_line1);
-			}
-			if(new_line2 != NULL)
-			{
-				printf("File 2 : Line #%d : %s\n", ++count_line2, new_line2);
-				free(new_line2);
-			}
-		}
-	}
-	close(fd1);
-	close(fd2);
-	return (0);
-}
+// int	main(int argc, char **argv)
+// {
+// 	// Variable declaration
+// 	int		fd1;
+// 	int		fd2;
+// 	char	*new_line1;
+// 	char	*new_line2;
+// 	int		count_line1;
+// 	int		count_line2;
+// 	// Variable initialisation
+// 	count_line1 = 0;
+// 	count_line2 = 0;
+// 	// when argc != 3
+// 	if (argc != 3)
+// 	{
+// 		printf("Usage : %s <file1> <file2>", argv[0]);
+// 		return(1);
+// 	}
+// 	// when argc == 3
+// 	// Open files in read only mode and check for errors
+// 	fd1 = open(argv[1], O_RDONLY);
+// 	fd2 = open(argv[2], O_RDONLY);
+// 	// if (fd1 < 0 || fd2 < 0)
+// 	// {
+// 	// 	perror("Error opening file");
+// 	// 	if (fd1 >= 0)
+// 	// 		close(fd1);
+// 	// 	if (fd2 >= 0)
+// 	// 		close(fd2);
+// 	// 	return(1);
+// 	// }
+// 	// Read and print lines from both file until both are empty
+// 	while(1)
+// 	{
+// 		// Get the next line from each file
+// 		new_line1 = get_next_line(fd1);
+// 		new_line2 = get_next_line(fd2);
+// 		// Break out of the loop when both files have been fully read
+// 		if (new_line1 == NULL && new_line2 == NULL)
+// 			break;
+// 		// Print line from file1, if available
+// 		if(new_line1 != NULL)
+// 		{
+// 			printf("File 1 : Line #%d : %s\n", ++count_line1, new_line1);
+// 			free(new_line1);
+// 		}
+// 		// Print line from file2, if available
+// 		if(new_line2 != NULL)
+// 		{
+// 			printf("File 2 : Line #%d : %s\n", ++count_line2, new_line2);
+// 			free(new_line2);
+// 		}
+// 	}
+// 	// Close files after reading
+// 	close(fd1);
+// 	close(fd2);
+// 	return (0);
+// }
