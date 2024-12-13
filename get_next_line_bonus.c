@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/13 15:26:12 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/13 15:42:51 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,50 +152,45 @@ char	*clean_buffer_static(char *buffer_static)
 //============================================================================
 //--------------------------------- main -------------------------------------
 //============================================================================
+// gcc -Wall -Werror -Wextra -g
+// get_next_line_bonus.c get_next_line_bonus.h get_next_line_utils_bonus.c
+int	main(int argc, char **argv)
+{
+	// Variable declaration
+	int		fd1;
+	int		fd2;
+	char	*new_line1;
+	char	*new_line2;
+	int		count_line1;
+	int		count_line2;
 
-// int	main(int argc, char **argv)
-// {
-// 	// Variable declaration
-// 	int		fd1;
-// 	int		fd2;
-// 	char	*new_line1;
-// 	char	*new_line2;
-// 	int		count_line1;
-// 	int		count_line2;
+	// Variable initialisation
+	count_line1 = 0;
+	count_line2 = 0;
 
-// 	// Variable initialisation
-// 	count_line1 = 0;
-// 	count_line2 = 0;
+	// when argc == 3
+	if (argc == 3)
+	{
+		// 1. Open the files >> read only
+		fd1 = open(argv[1], O_RDONLY);
+		fd2 = open(argv[2], O_RDONLY);
 
-// 	// when argc == 3
-// 	if (argc == 3)
-// 	{
-// 		// 1. Open the files >> read only
-// 		fd1 = open(argv[1], O_RDONLY);
-// 		fd2 = open(argv[2], O_RDONLY);
-
-// 		while((new_line1 = get_next_line(fd1)) ||
-//		(new_line2 = get_next_line(fd2)))
-// 		{
-// 			if(new_line1 != NULL)
-// 			{
-// 				printf("File 1 : Line #%d : %s\n", ++count_line1, new_line1);
-// 				free(new_line1);
-// 			}
-// 			if(new_line2 != NULL)
-// 			{
-// 				printf("File 2 : Line #%d : %s\n", ++count_line2, new_line2);
-// 				free(new_line2);
-// 			}
-// 		}
-// 		// if new_line == NULL >> end of file
-// 		// if (new_line == NULL)
-// 		// {
-// 		// 	printf("Line #%d : %s\n", ++count_line, new_line);
-// 		// 	printf("----- End of file -----\n");
-// 		// }
-// 	}
-// 	close(fd1);
-// 	close(fd2);
-// 	return (0);
-// }
+		while((new_line1 = get_next_line(fd1)) != NULL ||
+			(new_line2 = get_next_line(fd2)) != NULL )
+		{
+			if(new_line1 != NULL)
+			{
+				printf("File 1 : Line #%d : %s\n", ++count_line1, new_line1);
+				free(new_line1);
+			}
+			if(new_line2 != NULL)
+			{
+				printf("File 2 : Line #%d : %s\n", ++count_line2, new_line2);
+				free(new_line2);
+			}
+		}
+	}
+	close(fd1);
+	close(fd2);
+	return (0);
+}
