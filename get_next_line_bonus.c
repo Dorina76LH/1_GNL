@@ -6,14 +6,14 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/13 15:42:51 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/13 15:48:03 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // ============================================================================
 // -------------------------------- headers -----------------------------------
 // ============================================================================
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 // ============================================================================
 // ---------------------------- get_next_line ---------------------------------
@@ -23,7 +23,6 @@
 // 2. Read from fd and append to 'buffer_static'
 // 3. Extract 'line' from 'buffer_static'
 // 4. Clean 'buffer_static'
-// [FD_MAX] c'est le nb de fd - double tableau
 // return (free(buffer_static[fd]), buffer_static[fd] = NULL, free(line), NULL);
 
 char	*get_next_line(int fd)
