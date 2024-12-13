@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/13 13:58:13 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/13 15:26:12 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,26 @@
 // 3. Extract 'line' from 'buffer_static'
 // 4. Clean 'buffer_static'
 // [FD_MAX] c'est le nb de fd - double tableau
+// return (free(buffer_static[fd]), buffer_static[fd] = NULL, free(line), NULL);
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer_static;
+	static char	*buffer_static[FD_MAX];
 	char		*line;
 
-	if (fd < 0 || fd > 1023 || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd >= FD_MAX || BUFFER_SIZE <= 0)
 		return (NULL);
 	line = NULL;
-	buffer_static = read_and_join(fd, buffer_static);
-	if (buffer_static == NULL)
+	buffer_static[fd] = read_and_join(fd, buffer_static[fd]);
+	if (buffer_static[fd] == NULL)
 		return (NULL);
-	line = find_new_line(buffer_static, line);
+	line = find_new_line(buffer_static[fd], line);
 	if (line == NULL || *line == '\0')
-		return (free(buffer_static), buffer_static = NULL, free(line), NULL);
-	buffer_static = clean_buffer_static(buffer_static);
+	{
+		free(buffer_static[fd]);
+		return (buffer_static[fd] = NULL, free(line), NULL);
+	}
+	buffer_static[fd] = clean_buffer_static(buffer_static[fd]);
 	return (line);
 }
 
@@ -66,6 +70,8 @@ char	*read_and_join(int fd, char *buffer_static)
 		return (free(buffer_static), NULL);
 	if (!buffer_static)
 		buffer_static = ft_substr("", 0, 0);
+	if (!buffer_static)
+		return (free(buffer_static), NULL);
 	count_char = 1;
 	while (ft_strchr(buffer_static, '\n') == 0 && count_char > 0)
 	{
@@ -150,42 +156,46 @@ char	*clean_buffer_static(char *buffer_static)
 // int	main(int argc, char **argv)
 // {
 // 	// Variable declaration
-// 	int		fd;
-// 	char	*new_line;
-// 	int		count_line;
+// 	int		fd1;
+// 	int		fd2;
+// 	char	*new_line1;
+// 	char	*new_line2;
+// 	int		count_line1;
+// 	int		count_line2;
 
 // 	// Variable initialisation
-// 	count_line = 0;
+// 	count_line1 = 0;
+// 	count_line2 = 0;
 
-// 	// when argc == 2
-// 	if (argc == 2)
+// 	// when argc == 3
+// 	if (argc == 3)
 // 	{
-// 		// 1. Open the file >> read only
+// 		// 1. Open the files >> read only
+// 		fd1 = open(argv[1], O_RDONLY);
+// 		fd2 = open(argv[2], O_RDONLY);
 
-// 		// test stdin >> fin >> ctrl + d
-// 		// fd = 0;
-
-// 		// test file 
-// 		fd = open(argv[1], O_RDONLY); // test
-
-// 		// 2. GNL : read the file line by line
-
-// 		// while return of GNL is > 0 >> there is encore something to read
-// 		new_line = get_next_line(fd);
-// 		while (new_line != NULL)
+// 		while((new_line1 = get_next_line(fd1)) ||
+//		(new_line2 = get_next_line(fd2)))
 // 		{
-// 			printf("Line #%d : %s\n", ++count_line, new_line);
-// 			free(new_line);
-// 			new_line = get_next_line(fd);
+// 			if(new_line1 != NULL)
+// 			{
+// 				printf("File 1 : Line #%d : %s\n", ++count_line1, new_line1);
+// 				free(new_line1);
+// 			}
+// 			if(new_line2 != NULL)
+// 			{
+// 				printf("File 2 : Line #%d : %s\n", ++count_line2, new_line2);
+// 				free(new_line2);
+// 			}
 // 		}
 // 		// if new_line == NULL >> end of file
-// 		if (new_line == NULL)
-// 		{
-// 			printf("Line #%d : %s\n", ++count_line, new_line);
-// 			printf("----- End of file -----\n");
-// 		}
-// 		free(new_line);
-// 		close(fd);
+// 		// if (new_line == NULL)
+// 		// {
+// 		// 	printf("Line #%d : %s\n", ++count_line, new_line);
+// 		// 	printf("----- End of file -----\n");
+// 		// }
 // 	}
+// 	close(fd1);
+// 	close(fd2);
 // 	return (0);
 // }
