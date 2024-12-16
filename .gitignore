@@ -1,3 +1,7 @@
-file1.txt
-file2.txt
+# *.txt -> test GNL
 *.txt
+
+# *.a et *.o
+*.a
+*.o
+*.out

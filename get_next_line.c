@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/13 16:22:16 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/16 14:41:29 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,50 +146,45 @@ char	*clean_buffer_static(char *buffer_static)
 //============================================================================
 //--------------------------------- main -------------------------------------
 //============================================================================
-// gcc -Wall -Werror -Wextra -g
+// gcc -Wall -Werror -Wextra -g -D BUFFER_SIZE=1
 // get_next_line.c get_next_line.h get_next_line_utils.c
 // int	main(int argc, char **argv)
 // {
-// 	// Variable declaration
 // 	int		fd;
 // 	char	*new_line;
-// 	int		count_line;
-
-// 	// Variable initialisation
-// 	count_line = 0;
-
-// 	// when argc == 2
+// 	int		count_line = 0;
+// 	// Read : File
 // 	if (argc == 2)
 // 	{
-// 		// 1. Open the file >> read only
-
-// 		// test stdin >> fin >> ctrl + d
-// 		// fd = 0;
-
-// 		// test file 
-// 		fd = open(argv[1], O_RDONLY); // test
-
-// 		// 2. GNL : read the file line by line
-
-// 		// while return of GNL is > 0 >> there is encore something to read
-// 		new_line = get_next_line(fd);
-// 		while (new_line != NULL)
-// 		{
-// 			printf("Line #%d : %s\n", ++count_line, new_line);
-// 			free(new_line);
-// 			new_line = get_next_line(fd);
-// 		}
-// 		// if new_line == NULL >> end of file
-// 		if (new_line == NULL)
-// 		{
-// 			printf("Line #%d : %s\n", ++count_line, new_line);
-// 			printf("----- End of file -----\n");
-// 		}
-// 		free(new_line);
-// 		close(fd);
+// 		fd = open(argv[1], O_RDONLY);
+// 		printf("Read from : %s\n", argv[1]);
 // 	}
+// 	// Read : stdin
+// 	else if (argc == 1)
+// 	{
+// 		fd = STDIN_FILENO;
+// 		printf("Read from : Terminal \n");
+// 		printf("Tape texte => EOF =. Ctrl + D : \n");
+// 	}
+// 	// Loop => read => call get_next_line
+// 	// while return of GNL is > 0 >> there is encore something to read
+// 	new_line = get_next_line(fd);
+// 	while (new_line != NULL)
+// 	{
+// 		printf("Line #%d : %s\n", ++count_line, new_line);
+// 		free(new_line);
+// 		new_line = get_next_line(fd);
+// 	}
+// 	// if new_line == NULL >> end of file
+// 	if (new_line == NULL)
+// 	{
+// 		printf("Line #%d : %s\n", ++count_line, new_line);
+// 		printf("----- End of file -----\n");
+// 	}
+// 	free(new_line);
+// 	close(fd);
 // 	return (0);
-// }
+//}
 // fichier1.txt
 // 11111111111111111111111111111111111111111111111111111111111111111111111
 // 22222222222222222222222222222222222222222222222222222222222222222222222
