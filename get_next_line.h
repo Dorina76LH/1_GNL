@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:18:30 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/16 14:14:11 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/16 15:12:39 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 // printf()
 # include <stdio.h>
 
-// read()
+// read() STDIN_FILENO
 # include <unistd.h>
 
 // open()

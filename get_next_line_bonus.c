@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/13 16:26:11 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/16 15:55:49 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ char	*clean_buffer_static(char *buffer_static)
 //============================================================================
 //--------------------------------- main -------------------------------------
 //============================================================================
-// gcc -Wall -Werror -Wextra -g
+// gcc -Wall -Werror -Wextra -g -D BUFFER_SIZE=42
 // get_next_line_bonus.c get_next_line_bonus.h get_next_line_utils_bonus.c
 // int	main(int argc, char **argv)
 // {
@@ -165,25 +165,39 @@ char	*clean_buffer_static(char *buffer_static)
 // 	// Variable initialisation
 // 	count_line1 = 0;
 // 	count_line2 = 0;
-// 	// when argc != 3
-// 	if (argc != 3)
+// 	// when argce == 1 => no file
+// 	if (argc == 1)
 // 	{
-// 		printf("Usage : %s <file1> <file2>", argv[0]);
-// 		return(1);
+// 		fd1 = STDIN_FILENO;
+// 		fd2 = STDIN_FILENO;
 // 	}
-// 	// when argc == 3
+// 	// when argc == 2 => 1 file
+// 	else if (argc == 2)
+// 	{
+// 		fd1 = STDIN_FILENO;
+// 		fd2 = open(argv[1], O_RDONLY);
+// 		// if (fd2 < 0 && argc == 2)
+// 		// {
+// 		// 	perror("Error opening file")
+// 		// 	return (1);
+// 		// }
+// 	}
+// 	//when argc == 3 => 2 files
 // 	// Open files in read only mode and check for errors
-// 	fd1 = open(argv[1], O_RDONLY);
-// 	fd2 = open(argv[2], O_RDONLY);
-// 	// if (fd1 < 0 || fd2 < 0)
-// 	// {
-// 	// 	perror("Error opening file");
-// 	// 	if (fd1 >= 0)
-// 	// 		close(fd1);
-// 	// 	if (fd2 >= 0)
-// 	// 		close(fd2);
-// 	// 	return(1);
-// 	// }
+// 	else if (argc == 3)
+// 	{
+// 		fd1 = open(argv[1], O_RDONLY);
+// 		fd2 = open(argv[2], O_RDONLY);
+// 		//if (fd1 < 0 || fd2 < 0)
+// 		//{
+// 		// 	perror("Error opening file");
+// 		// 	if (fd1 >= 0)
+// 		// 		close(fd1);
+// 		// 	if (fd2 >= 0)
+// 		// 		close(fd2);
+// 		// 	return(1);
+// 		// }
+// 	}
 // 	// Read and print lines from both file until both are empty
 // 	while(1)
 // 	{
@@ -210,4 +224,4 @@ char	*clean_buffer_static(char *buffer_static)
 // 	close(fd1);
 // 	close(fd2);
 // 	return (0);
-// }
+//}
