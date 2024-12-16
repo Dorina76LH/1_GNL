@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/16 14:41:29 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/16 17:01:21 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // ---------------------------- get_next_line ---------------------------------
 // ============================================================================
 
-// 1. Validate the inputs and test the file descriptor
+// 1. Validate the inputs and check the file descriptor
 // 2. Read from fd and append to 'buffer_static'
 // 3. Extract 'line' from 'buffer_static'
 // 4. Clean 'buffer_static'
@@ -166,6 +166,11 @@ char	*clean_buffer_static(char *buffer_static)
 // 		printf("Read from : Terminal \n");
 // 		printf("Tape texte => EOF =. Ctrl + D : \n");
 // 	}
+// 	else
+// 	{
+// 		printf("Enter no parametre or only one file.\n");
+// 		return (1);
+// 	}
 // 	// Loop => read => call get_next_line
 // 	// while return of GNL is > 0 >> there is encore something to read
 // 	new_line = get_next_line(fd);
@@ -184,7 +189,7 @@ char	*clean_buffer_static(char *buffer_static)
 // 	free(new_line);
 // 	close(fd);
 // 	return (0);
-//}
+// }
 // fichier1.txt
 // 11111111111111111111111111111111111111111111111111111111111111111111111
 // 22222222222222222222222222222222222222222222222222222222222222222222222

@@ -6,7 +6,7 @@
 /*   By: doberes <doberes@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/02 10:07:32 by doberes           #+#    #+#             */
-/*   Updated: 2024/12/16 15:55:49 by doberes          ###   ########.fr       */
+/*   Updated: 2024/12/16 17:06:09 by doberes          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // ---------------------------- get_next_line ---------------------------------
 // ============================================================================
 
-// 1. Validate the inputs and test the file descriptor
+// 1. Validate the inputs and check the file descriptor
 // 2. Read from fd and append to 'buffer_static'
 // 3. Extract 'line' from 'buffer_static'
 // 4. Clean 'buffer_static'
@@ -165,7 +165,7 @@ char	*clean_buffer_static(char *buffer_static)
 // 	// Variable initialisation
 // 	count_line1 = 0;
 // 	count_line2 = 0;
-// 	// when argce == 1 => no file
+// 	// when argc == 1 => no file
 // 	if (argc == 1)
 // 	{
 // 		fd1 = STDIN_FILENO;
@@ -224,4 +224,4 @@ char	*clean_buffer_static(char *buffer_static)
 // 	close(fd1);
 // 	close(fd2);
 // 	return (0);
-//}
+// }
