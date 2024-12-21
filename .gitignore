@@ -1,7 +1,0 @@
-# *.txt -> test GNL
-*.txt
-
-# *.a et *.o
-*.a
-*.o
-*.out
